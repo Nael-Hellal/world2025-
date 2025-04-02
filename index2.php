@@ -16,27 +16,33 @@
 <?php  require_once 'header.php'; ?>
 <?php
 require_once 'inc/manager-db.php';
-$continent = $GET['name'];
+$continent = 'Asia';
 $desPays = getCountriesByContinent($continent);
 ?>
 
 <main role="main" class="flex-shrink-0">
 
-  <div class="container">
+  <div class="container"> 
     <h1>Les pays en Asie</h1>
     <div>
      <table class="table">
          <tr>
+          <th>Drapeau</th>
            <th>Nom</th>
            <th>Population</th>
            <th>Continent</th>
+           <th>Capital</th>
          </tr>
        <?php
+        /**le foreach permet d'éxécuter la function  $desPays as $pays sur chaque élément de la liste*/
         foreach ($desPays as $pays) { ?>
           <tr>
+            <td> <?php $source=strtolower($pays->Code2).".png"; ?>
+            <img src= "images/flag/<?=$source;?>" height= "60" width="90"></td>
             <td> <?php echo $pays->Name ?></td>
             <td> <?php echo $pays->Population ?></td>
             <td> <?php echo $pays->Continent ?></td>
+            <td> <?php echo getCapitale($pays->Capital) ?></td>
           </tr>
         <?php } ?>
      </table>
@@ -74,6 +80,18 @@ $desPays = getCountriesByContinent($continent);
 </main>
 
 <?php
-require_once 'javascripts.php';
-require_once 'footer.php';
+    require_once 'javascripts.php';
+    require_once 'footer.php';
+?>
+
+<?php
+    require_once 'inc/manager-db.php';
+    if (isset($_GET['name']) && !empty($_GET['name']) ){
+    $continent = ($_GET['name']);
+    $desPays = getCountriesByContinent($continent);
+}
+    else{
+    $continent = "Monde";
+    $desPays = getAllCountries();
+}
 ?>

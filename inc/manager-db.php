@@ -56,13 +56,43 @@ function getCountriesByContinent($continent)
  */
 function getAllCountries()
 {
+    //pour utiliser la variable globale dans la fonction getAllCountries
     global $pdo;
     $query = 'SELECT * FROM Country;';
     return $pdo->query($query)->fetchAll();
 }
-
-function getcontinents() {
+/** 
+ *  Obtenir la liste des continents
+ * 
+ * @return liste d'objets
+ * 
+ */ 
+function getContinent()
+{
+    /**pour utiliser la variable globale dans la fonction getContinent() */
     global $pdo;
-    $query = 'SELECT DISTINCT from continent;';
+    $query = 'SELECT DISTINCT Continent FROM Country;';
     return $pdo->query($query)->fetchAll();
+}
+
+/**
+ * obtenir la liste des capitales
+ * 
+ * @return liste d'objets
+ * 
+ */
+function getCapitale($num)
+{
+global $pdo;
+$query = 'SELECT DISTINCT Name FROM City WHERE id = :num;';
+$prep= $pdo->prepare($query);
+$prep->bindValue(':num', $num, PDO::PARAM_STR);
+$prep->execute();
+$result = $prep->fetch(PDO::FETCH_ASSOC);
+if($result) {
+    return $result['Name'];
+} else {
+    return 'Capital inconnue';
+}
+
 }

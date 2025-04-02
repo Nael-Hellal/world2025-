@@ -1,4 +1,7 @@
 <?php
+require_once 'inc/manager-db.php';
+$lesContinents = getContinent() ;
+$lesPays = getAllCountries();
 /**
  * Fragment Header HTML page
  *
@@ -11,7 +14,8 @@
  * @license   http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link      https://github.com/sio-melun/geoworld
  */
-?><!doctype html>
+?>
+<!doctype html>
 <html lang="fr" class="h-100">
 <head>
   <meta charset="utf-8">
@@ -33,6 +37,11 @@
         font-size: 3.5rem;
       }
     }
+
+    .dropdown-menu {
+      max-height: 400px;
+      overflow-y: auto;
+    }
   </style>
   <!-- Custom styles for this template -->
   <link href="css/custom.css" rel="stylesheet">
@@ -48,26 +57,27 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item active"> 
+          <a class="nav-link" href="mapWorld.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pays</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <?php foreach($lesPays as $pays) : ?>
+          <a class="dropdown-item" href="index2.php?name=<?= $pays->Name ; ?>"><?= $pays->Name; ?> </a>
+         <?php endforeach ; ?>
+    </div>
+</li> 
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-             aria-expanded="false">Continent</a>
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Continent</a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a class="dropdown-item" href="index2.php?name=Asie">Asie</a>
-            <a class="dropdown-item" href="index2.php?name=Europe">Europe</a>
-            <a class="dropdown-item" href="index2.php?name=Amerique du Nord">Amerique du Nord</a>
-            <a class="dropdown-item" href="index2.php?name=Amerique du Sud">Amerique du Sud</a>
-            <a class="dropdown-item" href="index2.php?name=Afrique">Afrique</a>
-            <a class="dropdown-item" href="index2.php?name=Oceanie">Oceanie</a>
-            <a class="dropdown-item" href="index2.php?name=Antarctique">Antarctique</a>
+            <?php foreach($lesContinents as $leContinent) : ?>
+            <a class="dropdown-item" href="index2.php?name=<?= $leContinent->Continent ; ?>"><?= $leContinent->Continent; ?> </a>
+            <?php endforeach ; ?>
           </div>
         </li>
       </ul>
